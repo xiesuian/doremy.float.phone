@@ -1108,27 +1108,28 @@
   }
 
   .phone-shell-wrap {
-    /* 保持原有的基础变量，但移除硬编码的边距和可能会引起卡顿的过度渲染属性 */
     --phone-case-padding: 0px;
     --phone-case-border-size: 0px;
     --phone-frame-size: 0px;
     --phone-screen-radius: 0px;
     --phone-frame-radius: 0px;
     --phone-case-radius: 0px;
+    /* 鸿蒙 HarmonyOS 适配：强制锁定区域，防止溢出，移除会导致掉帧的 will-change */
     width: 100vw;
-    height: 100vh;
+    height: 100lvh;
     overflow: hidden;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    /* 移除所有会导致重绘卡顿的 transform 动画，改为静态定位 */
+    /* 移除 GPU 加速依赖，改为由渲染引擎原生处理的静态定位 */
     transform: none !important;
-    will-change: unset !important;
+    will-change: auto !important;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
+    padding-top: var(--status-bar-drop, 48px);
   }
 
   .phone-shell-wrap .phone-case {
