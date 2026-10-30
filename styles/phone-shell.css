@@ -1118,10 +1118,8 @@
     margin-inline: 0;
     gap: 0;
     transform-origin: top left;
-    /* 状态栏占位上移：优先读取用户手动配置的 --status-bar-drop；
-       若未手动配置，则兜底回退系统安全区高度 env(safe-area-inset-top, 0px)，
-       避免在华为 Mate 60 Pro 等安卓挖孔/刘海屏设备上默认 0px 导致底部被挤出可视区。 */
-    margin-top: calc(-1 * var(--status-bar-drop, env(safe-area-inset-top, 0px)));
+    /* 强制补偿 48px，解决 Mate 60 Pro 视口被刘海截断问题 */
+    margin-top: calc(-1 * var(--status-bar-drop, 48px));
     transform: translate3d(0, calc(-1 * var(--mobile-keyboard-lift, 0px)), 0);
     /* 优化 Android WebView / 鸿蒙浏览器图层合成开销：
        仅在键盘真实抬升激活（--mobile-keyboard-lift 大于 0）时依赖合成层，
