@@ -1108,23 +1108,27 @@
   }
 
   .phone-shell-wrap {
+    /* 保持原有的基础变量，但移除硬编码的边距和可能会引起卡顿的过度渲染属性 */
     --phone-case-padding: 0px;
     --phone-case-border-size: 0px;
     --phone-frame-size: 0px;
     --phone-screen-radius: 0px;
     --phone-frame-radius: 0px;
     --phone-case-radius: 0px;
-    width: var(--phone-screen-width);
-    margin-inline: 0;
-    gap: 0;
-    transform-origin: top left;
-    /* 强制补偿 48px，解决 Mate 60 Pro 视口被刘海截断问题 */
-    margin-top: calc(-1 * var(--status-bar-drop, 48px));
-    transform: translate3d(0, calc(-1 * var(--mobile-keyboard-lift, 0px)), 0);
-    /* 优化 Android WebView / 鸿蒙浏览器图层合成开销：
-       仅在键盘真实抬升激活（--mobile-keyboard-lift 大于 0）时依赖合成层，
-       静态常态下移除常驻 will-change，消除长列表常驻独立图层带来的重绘与掉帧卡顿。 */
-    will-change: auto;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    /* 移除所有会导致重绘卡顿的 transform 动画，改为静态定位 */
+    transform: none !important;
+    will-change: unset !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
   }
 
   .phone-shell-wrap .phone-case {
